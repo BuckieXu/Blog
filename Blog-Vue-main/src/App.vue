@@ -26,8 +26,8 @@ export default {
     }
   },
   mounted () {
-    this.Height = document.documentElement.clientHeight+500
-    window.onresize = () => { this.Height = document.documentElement.clientHeight+500}
+    this.Height = document.documentElement.clientHeight+150
+    window.onresize = () => { this.Height = document.documentElement.clientHeight+150}
   }
 
 }

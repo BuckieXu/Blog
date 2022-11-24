@@ -6,4 +6,5 @@ module.exports = defineConfig({
   assetsDir: 'static',
   parallel: false,
   publicPath: './',
+  
 })

@@ -160,7 +160,7 @@ export default {
     // //停止页面滚动
     stopMove() {
       let scrollTop = window.scrollY; //滚动的高度；
-      console.log(scrollTop)
+      // console.log(scrollTop)
       this.pageLocation = scrollTop;
       document.body.style.position = "fixed";
       document.body.style.top = "-" + scrollTop + "px";

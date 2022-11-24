@@ -15,16 +15,21 @@
       </div>
       <!--标签部分  -->
       <div class="tagarea">
+        <div class="tagboard" :style="randomRgb(tagItem)" @click="getArticle()">
+        <a>全部</a>
+        <div class="tagboardNum">{{total}}</div>
+      </div>
         <div
           class="tagboard"
           v-for="(tagItem,index) in tag"
+          :style="randomRgb(tagItem)"
           :key="index"
           @click="getMsgByTagName(index)"
         >
-          <a>{{tagItem.TagName}}</a>
-          <!-- <div class="tagboardNum">24</div> -->
+          <a>{{tagName[tagItem.class]}}</a>
+          <div class="tagboardNum">{{tagItem.num}}</div>
         </div>
-      </div>
+      </div>    
     </div>
     <!-- 下面文章展示部分 -->
     <div class="articlecontent">
@@ -71,7 +76,19 @@ export default {
       isSearch: false,
       currentPage1: 1,
       total: 1,
-      pageSize: 6
+      pageSize: 6,
+      tagName: [
+        "",
+        "前端",
+        "项目",
+        "Vue",
+        "Node.js",
+        "Java",
+        "微信小程序",
+        "随记",
+        "HTML",
+        "MarkDown"
+      ]
     };
   },
   methods: {
@@ -81,6 +98,7 @@ export default {
         .get("/Tag/getAllTag")
         .then(res => {
           this.tag = res.data;
+          // console.log(this.tag);
         })
         .catch(err => {
           this.$message({
@@ -122,12 +140,22 @@ export default {
           });
           console.log(err);
         });
-      // 进行遍历获取文章数据，获取分类数据
     },
-    returnIndex() {
-      this.isSearch = false;
-      this.getArticle();
+    //随机产生颜色
+    // 循环遍历不同背景色
+    randomRgb(tagItem) {
+      let R = Math.floor(Math.random() * 130 + 110);
+      let G = Math.floor(Math.random() * 130 + 70);
+      let B = Math.floor(Math.random() * 130 + 110);
+      return {
+        background: "rgb(" + R + "," + G + "," + B + ")"
+      };
     },
+
+    // returnIndex() {
+    //   this.isSearch = false;
+    //   this.getArticle();
+    // },
     handleSizeChange(val) {
       console.log(`每页 ${val} 条`);
     },
@@ -157,38 +185,43 @@ export default {
   height: calc(100%);
 }
 .categoryContain {
-  background-color: #ffffff;
   width: 80%;
+  min-width: 400px;
   position: relative;
   top: 40px;
   left: 10%;
-  border: 1px solid #a8acab;
-  border-radius: 10px;
+  border: 0.5px solid #54c0b0;
+  border-radius: 4px;
+  /* border-style: none; */
 }
 /* header部分 */
 .header {
-  width: 100%;
+  width: calc(100%+2px);
+  background-color: #54c0b0;
   height: 60px;
   justify-content: space-between;
   display: flex;
   line-height: 60px;
-  border-bottom: 1px solid #a8acab;
+  border-bottom: 1px solid #54c0b0;
+  border-top-right-radius: 4px;
+  border-top-left-radius: 4px;
 }
 .headertitle {
   padding-left: 20px;
 }
 .headertitle h2 {
-  color: #54c0b0;
+  color: #c94d53;
 }
 .statistics {
-  width: 15%;
+  width: 30%;
   height: 100%;
   font-size: 16px;
+  text-align: right;
+  padding-right: 40px;
 }
 .statistics span {
   font-size: 22px;
-  color: red;
-  text-align: center;
+  color: #c94d53;
 }
 /* 标签部分 */
 .tagarea {
@@ -197,7 +230,6 @@ export default {
   flex-wrap: wrap;
   background: white;
   padding: 10px 0;
-  
 }
 
 .tagboard {
@@ -209,9 +241,26 @@ export default {
   display: flex;
   line-height: 40px;
   margin-top: 10px;
-
 }
-
+@media screen and (max-width: 1100px) {
+  .tagboard {
+    margin-left: 10px;
+    width: 18%;
+    min-width: 100px;
+    height: 40px;
+    border: 1px solid #a8acab;
+    border-radius: 5px;
+    display: flex;
+    line-height: 40px;
+    margin-top: 10px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .tagboardNum {
+    display: none;
+  }
+}
 .tagboard a {
   text-decoration: none;
   padding-left: 10px;
@@ -220,7 +269,6 @@ export default {
 }
 .tagboardNum {
   width: 26%;
-  border-left: 1px solid#a8acab;
   text-align: center;
 }
 /* 下面文章展示部分 */
@@ -249,9 +297,11 @@ export default {
   transition-timing-function: ease, ease, ease, ease, linear;
   width: 30%;
   height: 400px;
+  min-width: 350px;
   background-color: #ffffff;
   text-align: left;
   margin-left: 2%;
+  flex-wrap: wrap;
 }
 .md {
   overflow: hidden;
@@ -330,7 +380,7 @@ export default {
 .block {
   display: block;
   width: 100%;
-margin-bottom: 40px;
+  margin-bottom: 40px;
   text-align: center;
   /* margin: 20px auto; */
 }

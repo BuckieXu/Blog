@@ -8,7 +8,7 @@ const app = express()
 
 
 app.use(express.static(path.join(__dirname, './public')));
-app.use(express.json()) 
+app.use(express.json())
 mongoose.connect('mongodb://localhost:27017/blog-admin')
 app.use(require('cors')())
 
@@ -18,8 +18,8 @@ const Article = mongoose.model('Article', new mongoose.Schema({
   title: {
     type: String
   },
-  describe:{
-    type:String
+  describe: {
+    type: String
   },
   body: {
     type: String
@@ -30,8 +30,8 @@ const Article = mongoose.model('Article', new mongoose.Schema({
   class: {
     type: String
   },
-  src:{
-    type:String
+  src: {
+    type: String
   }
 }))
 // 创建用户数据库模型
@@ -47,7 +47,7 @@ const User = mongoose.model('User', new mongoose.Schema({
 
 // 创建留言板数据库模型
 const Message = mongoose.model('Message', new mongoose.Schema({
-  name: { 
+  name: {
     type: String
   },
   email: {
@@ -61,51 +61,51 @@ const Message = mongoose.model('Message', new mongoose.Schema({
   }
 }))
 //创建标签数据库模型
-const Tag = mongoose.model('Tag',new mongoose.Schema({
-   TagName: {
-    type:String
-   },
-   class: {
+const Tag = mongoose.model('Tag', new mongoose.Schema({
+  TagName: {
+    type: String
+  },
+  class: {
     type: String
   }
 }))
 //创建图片数据库模型
-const Img=mongoose.model('Img',new mongoose.Schema({
-   ImgType:{
-    type:String
-   },
-   ImgLink:{
-    type:String
-   }
+const Img = mongoose.model('Img', new mongoose.Schema({
+  ImgType: {
+    type: String
+  },
+  ImgLink: {
+    type: String
+  }
 }))
 //创建资源类型数据库模型
-const ResType=mongoose.model('ResType',new mongoose.Schema({
-  ResType:{
-   type:String
+const ResType = mongoose.model('ResType', new mongoose.Schema({
+  ResType: {
+    type: String
   },
-  ResourceNo:{
-    type:String
-   }
+  ResourceNo: {
+    type: String
+  }
 }))
 //创建资源数据库模型
-const Resource=mongoose.model('Resource',new mongoose.Schema({
-  ResourceNo:{
-    type:String
+const Resource = mongoose.model('Resource', new mongoose.Schema({
+  ResourceNo: {
+    type: String
   },
-  ResourceLogo:{
-    type:String
+  ResourceLogo: {
+    type: String
   },
-  ResourceName:{
-   type:String
+  ResourceName: {
+    type: String
   },
-  ResourceLink:{
-    type:String
+  ResourceLink: {
+    type: String
   },
-  describe:{
-    type:String
+  describe: {
+    type: String
   },
-  isDelete:{
-    type:Boolean
+  isDelete: {
+    type: Boolean
   }
 }))
 
@@ -184,7 +184,6 @@ app.get('/api/articles', async (req, res) => {
   const articles = await Article.find()
   res.send(articles)
 })
-
 // 删除文章
 app.delete('/api/articles/:id', async (req, res) => {
   await Article.findByIdAndDelete(req.params.id)
@@ -233,32 +232,62 @@ app.put('/api/articles/:id', async (req, res) => {
   res.send(article)
 })
 // 通过class获取文章信息
-app.get('/api/articles/getarticlesByClass/:class',async (req,res)=>{
-  const article=await Article.find({
-    class:req.params.class
+app.get('/api/articles/getarticlesByClass/:class', async (req, res) => {
+  const article = await Article.find({
+    class: req.params.class
   });
   //res.send(req.params.class);
-   res.send(article)
+  res.send(article)
 })
 //添加标签
 app.post('/api/Tag/addTag', async (req, res) => {
   const tag = await Tag.create(req.body)
-  // 将标签相应的num+1
 
   res.send(tag)
 })
-//获取所有标签
-app.get('/api/Tag/getAllTag',async (req,res)=>{
-  const tag=await Tag.find();
-  res.send(tag)
+//获取所有标签+标签数量
+app.get('/api/Tag/getAllTag', async (req, res) => {
+  // 通过分组获取文章列表中已有标签的数量列表
+  let listTargets = await Article.aggregate([{ "$group": { _id: "$class", "count": { "$sum": 1 } } }])
+  const tag = await Tag.find();
+  console.log(listTargets);
+  let p = new Promise((res, row) => {
+    let arr = []
+    for (let i = 0; i < tag.length; i++) {
+      let index = -1;
+      for (let j = 0; j < listTargets.length; j++) {
+        if (tag[i].class == listTargets[j]._id) {
+          index = j;
+          break;
+        }
+      }
+      let obj = {
+        _id: tag[i]._id,
+        class: tag[i].class,
+        num: 0
+      }
+      if (index == -1) {
+        arr.push(obj)
+      } else {
+        console.log(listTargets[index]);
+        obj.num = listTargets[index].count;
+        arr.push(obj)
+      }
+    }
+    console.log(arr);
+    res(arr);
+  })
+  p.then(ress => {
+    res.send(ress)
+  })
 })
 //通过class查询标签
-app.get('/api/Tag/getTagByClass/:class',async (req,res)=>{
-  const tag=await Tag.find({
-    class:req.params.class
+app.get('/api/Tag/getTagByClass/:class', async (req, res) => {
+  const tag = await Tag.find({
+    class: req.params.class
   });
   //res.send(req.params.class);
-   res.send(tag)
+  res.send(tag)
 })
 // 删除标签
 app.delete('/api/Tag/:id', async (req, res) => {
@@ -307,43 +336,43 @@ app.post('/api/upload_images', function (req, res) {
   })
 })
 // 增加图片链接
-app.post('/api/addimg',async(req,res) => {
+app.post('/api/addimg', async (req, res) => {
   const imgmsg = await Img.create(req.body)
   res.send(imgmsg)
-  
+
 })
 // 随机获取图片
-app.get('/api/img/getimg',async(req,res) => {
+app.get('/api/img/getimg', async (req, res) => {
   // 获取图片
-  const img=await Img.find();
+  const img = await Img.find();
   res.send(img)
 
 })
 
 // 添加资源类型
-app.post('/api/addResType',async(req,res) => {
+app.post('/api/addResType', async (req, res) => {
   const restype = await ResType.create(req.body)
-  res.send(restype) 
+  res.send(restype)
 })
 // 获取所有资源类型
-app.get('/api/resource/getAllResType',async (req,res)=>{
-  const restype=await ResType.find();
+app.get('/api/resource/getAllResType', async (req, res) => {
+  const restype = await ResType.find();
   res.send(restype)
 })
 //添加资源
-app.post('/api/addResource',async(req,res) => {
+app.post('/api/addResource', async (req, res) => {
   const resource = await Resource.create(req.body)
-  res.send(resource) 
+  res.send(resource)
 })
 // 通过资源类型获取资源
-app.get('/api/resource/getAllResourceByNo/:ResourceNo',async (req,res)=>{
-  const resource=await Resource.find({
-    ResourceNo:req.params.ResourceNo
+app.get('/api/resource/getAllResourceByNo/:ResourceNo', async (req, res) => {
+  const resource = await Resource.find({
+    ResourceNo: req.params.ResourceNo
   });
   res.send(resource)
 })
 // 删除资源
-app.delete('/api/resource/deleteResource/:id',async (req,res) => {
+app.delete('/api/resource/deleteResource/:id', async (req, res) => {
   await Resource.findByIdAndDelete(req.params.id)
   res.send({
     status: true

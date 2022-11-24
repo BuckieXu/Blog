@@ -29,7 +29,7 @@
             </p>
             <br />
             <p class="content" style="text-indent:5em">
-              整个博客前后端开发加起来用了十几天,前端采用了<b
+              整个博客前后端开发加起来用了一个月,前端采用了<b
                 >Vue2 + VueX + VueRouter + ElementUi</b
               >,后端使用的是<b>Express + Mongoose</b>
             </p>
@@ -40,57 +40,37 @@
             <p style="float: left">联系我：</p>
             <br />
             <div class="link-icon">
-              <li>
-                <el-tooltip
-                  effect="light"
-                  class="item"
-                  content="我的Githubヾ(≧▽≦*)o"
-                  placement="bottom"
-                >
-                  <a href="" target="_blank"
-                    ><img src="../assets/img/github.png" alt=""
-                  /></a>
-                </el-tooltip>
-              </li>
-              <li>
-                <el-tooltip
-                  effect="light"
-                  class="item"
-                  content="我的知乎ヾ(≧▽≦*)o"
-                  placement="bottom"
-                >
-                  <a
-                    href=""
-                    target="_blank"
-                    ><img src="../assets/img/zhihu.png" alt=""
-                  /></a>
-                </el-tooltip>
-              </li>
-              <li>
-                <el-tooltip
-                  effect="light"
-                  class="item"
-                  content="我的B站ヾ(≧▽≦*)o"
-                  placement="bottom"
-                >
-                  <a href="" target="_blank"
-                    ><img src="../assets/img/Bili.png" alt=""
-                  /></a>
-                </el-tooltip>
-              </li>
-              <li>
-                <el-tooltip
-                  effect="light"
-                  class="item"
-                  content="我的微博ヾ(≧▽≦*)o"
-                  placement="bottom"
-                >
-                  <a href="" target="_blank"
-                    ><img src="../assets/img/weibo.png" alt=""
-                  /></a>
-                </el-tooltip>
-              </li>
-            </div>
+        <li>
+          <el-tooltip effect="light" class="item" content="我的Githubヾ(≧▽≦*)o" placement="bottom">
+            <el-button  type="text">
+            <a href="https://github.com/BuckieXu">
+              <img  class="linkIconImg" src="../assets/img/github.png" alt />
+            </a>
+          </el-button>
+          </el-tooltip>
+        </li>
+        <li>
+          <el-tooltip effect="light" class="item" content="我的QQヾ(≧▽≦*)o" placement="bottom">
+            <el-button type="text" @click="open">
+              <img  class="linkIconImg" src="https://ts1.cn.mm.bing.net/th/id/R-C.0a5ecb2c5836a635b72c983f0687223c?rik=c8CPosrP8agD0A&riu=http%3a%2f%2fd.lanrentuku.com%2fdown%2fpng%2f1510%2fweixin-qq-icon%2fqq.png&ehk=9oMfrJg0%2b8caFrNwGkaPBtHE62uBI28KH55GJq8pf%2bA%3d&risl=&pid=ImgRaw&r=0" alt />
+            </el-button>
+          </el-tooltip>
+        </li>
+        <li>
+          <el-tooltip effect="light" class="item" content="我的微信ヾ(≧▽≦*)o" placement="bottom">
+            <el-button type="text" @click="open">
+              <img  class="linkIconImg" src="https://ts1.cn.mm.bing.net/th/id/R-C.b4ae3496473df0a158d5b4927d3b74c1?rik=xVW%2fOYSozCCcrQ&riu=http%3a%2f%2fimages.shejidaren.com%2fwp-content%2fuploads%2f2020%2f03%2funnamed-file.png&ehk=N5w8ATecXx%2b1KWZ3xQORVtoIQU0Ijxz8%2bo6viRr14%2fE%3d&risl=&pid=ImgRaw&r=0" alt />
+            </el-button>
+          </el-tooltip>
+        </li>
+        <li>
+          <el-tooltip effect="light" class="item" content="我的邮箱ヾ(≧▽≦*)o" placement="bottom">
+            <el-button type="text" @click="open">
+              <img  class="linkIconImg" src="https://ts1.cn.mm.bing.net/th/id/R-C.8d1b237d1102a1bc81dd4327323a7cc3?rik=Biy3mbcoYlXAZg&riu=http%3a%2f%2fis4.mzstatic.com%2fimage%2fthumb%2fPurple71%2fv4%2fe2%2fcf%2f2f%2fe2cf2fe4-a977-71fd-9b0c-afc40e074bc1%2fsource%2f512x512bb.png&ehk=DZrwEQzhZ1D%2b%2bAZmLTEbrufpVN365ng21m0zQkTiNyI%3d&risl=&pid=ImgRaw&r=0" alt />
+            </el-button>
+          </el-tooltip>
+        </li>
+      </div>
           </div>
         </div>
       </el-card>
@@ -102,6 +82,19 @@
 export default {
   created () {
     window.scrollTo(0, 0)
+  },
+  methods:{
+    open() {
+        this.$alert('敬请期待', '还未开发此内容', {
+          confirmButtonText: '确定',
+          // callback: action => {
+          //   this.$message({
+          //     type: 'info',
+          //     message: `action: ${ action }`
+          //   });
+          // }
+        });
+      },
   }
 }
 </script>
@@ -130,15 +123,18 @@ export default {
 }
 .info-text {
   text-align: center;
-  margin-top: 50px;
+  margin-top: 20px;
 }
 .box-card {
-  z-index: 1 !important;
-  position: relative;
+   
+  /*position: relative;
   left: 50%;
   transform: translate(-50%);
   margin-top: 30px;
-  margin-bottom: -150px;
+  margin-bottom: -150px; */
+  z-index: 1 !important;
+  margin-top: 0px;
+  margin: auto;
   width: 1000px;
   height: 800px;
 }
@@ -161,7 +157,8 @@ export default {
   margin-bottom: 30px;
 }
 .info {
-  margin-top: 30px;
+  position: relative;
+  bottom: 0;
 }
 .link-icon {
   position: absolute;
@@ -173,7 +170,7 @@ export default {
   float: left;
   list-style-type: none;
 }
-.link-icon > li > a > img {
+.linkIconImg {
   padding-top: 10px;
   margin-left: 30px;
   margin-top: 20px;

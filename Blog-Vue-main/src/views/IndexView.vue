@@ -28,40 +28,54 @@
       <img class="avatar" src="../assets/img/9086df31395ae8736bf1d512ccf73d9d0a18e240.jpg" />
       <br />
       <div class="webName">
-        <p class="webNameContain">欢迎来到我的博客</p>
+        <p class="webNameContain">欢迎来到Buckie博客</p>
       </div>
       <br />
       <div class="link-icon">
         <li>
           <el-tooltip effect="light" class="item" content="我的Githubヾ(≧▽≦*)o" placement="bottom">
-            <a href="https://www.bilibili.com/" target="_blank">
-              <img src="../assets/img/github.png" alt />
-            </a>
+            <el-button type="text">
+              <a href="https://github.com/BuckieXu">
+                <img class="linkIconImg" src="../assets/img/github.png" alt />
+              </a>
+            </el-button>
           </el-tooltip>
         </li>
         <li>
-          <el-tooltip effect="light" class="item" content="我的知乎ヾ(≧▽≦*)o" placement="bottom">
-            <a href="https://www.bilibili.com/" target="_blank">
-              <img src="../assets/img/zhihu.png" alt />
-            </a>
+          <el-tooltip effect="light" class="item" content="我的QQヾ(≧▽≦*)o" placement="bottom">
+            <el-button type="text" @click="open">
+              <img
+                class="linkIconImg"
+                src="https://ts1.cn.mm.bing.net/th/id/R-C.0a5ecb2c5836a635b72c983f0687223c?rik=c8CPosrP8agD0A&riu=http%3a%2f%2fd.lanrentuku.com%2fdown%2fpng%2f1510%2fweixin-qq-icon%2fqq.png&ehk=9oMfrJg0%2b8caFrNwGkaPBtHE62uBI28KH55GJq8pf%2bA%3d&risl=&pid=ImgRaw&r=0"
+                alt
+              />
+            </el-button>
           </el-tooltip>
         </li>
         <li>
-          <el-tooltip effect="light" class="item" content="我的B站ヾ(≧▽≦*)o" placement="bottom">
-            <a href="https://www.bilibili.com/" target="_blank">
-              <img src="../assets/img/Bili.png" alt />
-            </a>
+          <el-tooltip effect="light" class="item" content="我的微信ヾ(≧▽≦*)o" placement="bottom">
+            <el-button type="text" @click="open">
+              <img
+                class="linkIconImg"
+                src="https://ts1.cn.mm.bing.net/th/id/R-C.b4ae3496473df0a158d5b4927d3b74c1?rik=xVW%2fOYSozCCcrQ&riu=http%3a%2f%2fimages.shejidaren.com%2fwp-content%2fuploads%2f2020%2f03%2funnamed-file.png&ehk=N5w8ATecXx%2b1KWZ3xQORVtoIQU0Ijxz8%2bo6viRr14%2fE%3d&risl=&pid=ImgRaw&r=0"
+                alt
+              />
+            </el-button>
           </el-tooltip>
         </li>
         <li>
-          <el-tooltip effect="light" class="item" content="我的微博ヾ(≧▽≦*)o" placement="bottom">
-            <a href="https://www.bilibili.com/" target="_blank">
-              <img src="../assets/img/weibo.png" alt />
-            </a>
+          <el-tooltip effect="light" class="item" content="我的邮箱ヾ(≧▽≦*)o" placement="bottom">
+            <el-button type="text" @click="open">
+              <img
+                class="linkIconImg"
+                src="https://ts1.cn.mm.bing.net/th/id/R-C.8d1b237d1102a1bc81dd4327323a7cc3?rik=Biy3mbcoYlXAZg&riu=http%3a%2f%2fis4.mzstatic.com%2fimage%2fthumb%2fPurple71%2fv4%2fe2%2fcf%2f2f%2fe2cf2fe4-a977-71fd-9b0c-afc40e074bc1%2fsource%2f512x512bb.png&ehk=DZrwEQzhZ1D%2b%2bAZmLTEbrufpVN365ng21m0zQkTiNyI%3d&risl=&pid=ImgRaw&r=0"
+                alt
+              />
+            </el-button>
           </el-tooltip>
         </li>
       </div>
-      <a href="#nva" class="el-icon-arrow-down"></a>
+      <!-- <a href="#nva" class="el-icon-arrow-down"></a> -->
     </div>
     <div class="pageShow">
       <el-container>
@@ -77,13 +91,13 @@
             <el-menu-item class="el-icon-bangzhu" index="/resource">资源</el-menu-item>
             <el-menu-item class="el-icon-chat-dot-round" index="/message">留言板</el-menu-item>
             <el-menu-item class="el-icon-info" index="/info">关于</el-menu-item>
-              <el-input
-                class="search"
-                placeholder="请输入内容"
-                prefix-icon="el-icon-search"
-                v-model="search"
-              ></el-input>
-              <el-button class="searchBtn" type="primary" size="small" @click="Search">搜索</el-button>
+            <el-input
+              class="search"
+              placeholder="请输入内容"
+              prefix-icon="el-icon-search"
+              v-model="search"
+            ></el-input>
+            <el-button class="searchBtn" type="primary" size="small" @click="Search">搜索</el-button>
           </el-menu>
         </el-header>
         <el-container>
@@ -163,15 +177,35 @@
                     </li>
                   </ul>
                 </div>
+                <!-- 签名 -->
+                <div class="SignContainter" @click="drawer = true">
+                  <!-- 主文案 -->
+                  <p class="MainText">{{sign.Main}}</p>
+                  <!-- 副文案 -->
+                  <p class="viceText">{{sign.vice}}</p>
+                </div>
+                <el-drawer
+                  title="我是标题"
+                  :visible.sync="drawer"
+                  :direction="direction"
+                  :before-close="handleClose"
+                >
+                  <el-form ref="form" :model="sign" label-width="80px">
+                    <el-form-item label="主文案">
+                      <el-input v-model="sign.Main"></el-input>
+                    </el-form-item>
+                    <el-form-item label="副文案">
+                      <el-input v-model="sign.vice"></el-input>
+                    </el-form-item>
+                  </el-form>
+                </el-drawer>
               </div>
             </div>
           </div>
         </el-container>
       </el-container>
     </div>
-    <!-- <Footer></Footer> -->
   </div>
-
 </template>
 
 <script>
@@ -191,17 +225,16 @@ export default {
       currentPage1: 1,
       total: 1,
       pageSize: 6,
-      tagNum:'',
+      tagNum: "",
       MsgList: [],
-      imgList: [
-        "../assets/img/bg1.png",
-        "../assets/img/bg2.png",
-        "../assets/img/bg3.png",
-        "../assets/img/bg4.png",
-        "../assets/img/bg5.png",
-        "../assets/img/bg6.png",
-        "../assets/img/bg7.png"
-      ]
+      value: new Date(),
+      // 抽屉属性
+      drawer: false,
+      direction: "rtl",
+      sign: {
+        Main: "好事将至",
+        vice: "两人若是长久时又岂在朝朝暮暮"
+      }
     };
   },
   computed: {
@@ -224,6 +257,24 @@ export default {
         const opa = window.screen.availHeight - 150;
         header.classList.toggle("sticky", window.scrollY > opa);
       });
+    },
+    open() {
+      this.$alert("敬请期待", "还未开发此内容", {
+        confirmButtonText: "确定"
+        // callback: action => {
+        //   this.$message({
+        //     type: 'info',
+        //     message: `action: ${ action }`
+        //   });
+        // }
+      });
+    },
+    handleClose(done) {
+      this.$confirm("确认关闭？")
+        .then(_ => {
+          done();
+        })
+        .catch(_ => {});
     },
     // 进行搜索
     Search() {
@@ -303,8 +354,7 @@ export default {
           });
           console.log(err);
         });
-    },
-
+    }
   },
   created() {
     this.nvaEvent();
@@ -332,7 +382,6 @@ export default {
   z-index: -1;
   backdrop-filter:initial;
 } */
-
 
 .swiper-container {
   position: relative;
@@ -385,15 +434,15 @@ ul li {
   z-index: 101;
 }
 @keyframes typing {
-       0% {             
-           width: 0;          
-        }            
-        50% {                
-           width: 500px;           
-        }            
-        100% {                
-          width: 0px;
-        }
+  0% {
+    width: 0;
+  }
+  50% {
+    width: 500px;
+  }
+  100% {
+    width: 0px;
+  }
 }
 .webNameContain {
   font-size: 7vh;
@@ -407,10 +456,9 @@ ul li {
   margin: auto;
   white-space: nowrap;
   animation: typing 8s linear;
-  animation-direction: alternate; 
-  animation-iteration-count: infinite; 
-  animation-direction: alternate; 
-  
+  animation-direction: alternate;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
 }
 .webName > a:hover {
   font-size: 50px;
@@ -427,7 +475,7 @@ ul li {
   float: left;
   list-style-type: none;
 }
-.link-icon > li > a > img {
+.linkIconImg {
   padding-top: 10px;
   margin-left: 30px;
   margin-top: 20px;
@@ -541,7 +589,7 @@ header {
 }
 .body {
   /* background-color: #f0eeee; */
-  min-height: 1300px;
+  min-height: 1000px;
   position: relative;
   overflow: hidden;
   text-overflow: clip;
@@ -664,7 +712,7 @@ header {
 /* 个人板块 */
 
 .PersonMsg {
-  width: 20%;
+  width: 40%;
   height: 20%;
   min-height: 350px;
   min-width: 300px;
@@ -673,6 +721,7 @@ header {
   padding: 20px;
   box-sizing: border-box;
   margin-bottom: 20px;
+  user-select: none;
 }
 .PersonMsg .head {
   width: 100%;
@@ -725,6 +774,7 @@ header {
   padding: 10px 20px;
   border-radius: 10px;
   box-sizing: border-box;
+  user-select: none;
 }
 .newMsgTitle {
   width: 100%;
@@ -754,6 +804,41 @@ header {
 .newNum {
   margin-right: 5%;
   font-size: 18px;
+}
+/* 签名部分 */
+.SignContainter {
+  width: 20%;
+  height: 160px;
+  min-width: 300px;
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-sizing: border-box;
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-between;
+  background-image: url(https://api.r10086.com/%E5%9B%BE%E5%8C%85/%E9%A3%8E%E6%99%AF%E7%B3%BB%E5%88%972/15469478_12.jpg);
+  opacity: 0.9;
+  background-size: 100% 100%;
+  margin-bottom: 20px;
+}
+.MainText {
+  width: 25%;
+  font-size: 30px;
+  padding: 20px;
+  padding-top: 10px;
+  color: white;
+  font-family: "宋体";
+  user-select: none;
+}
+.viceText {
+  width: 20%;
+  height: 90%;
+  font-size: 14px;
+  color: skyblue;
+  writing-mode: vertical-lr;
+  margin: auto 10px;
+  letter-spacing: 5px;
+  user-select: none;
 }
 .footer {
   position: absolute;

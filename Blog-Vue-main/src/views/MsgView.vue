@@ -112,11 +112,12 @@ export default {
 }
 .message-body {
   z-index: 1 !important;
-  position: relative;
+  /* position: relative;
   left: 50%;
-  transform: translate(-50%);
+  transform: translate(-50%); */
+  margin: auto;
   margin-top: 30px;
-  margin-bottom: -150px;
+  margin-bottom: -100px;
   width: 800px;
   height: 300px;
 }
